@@ -28,7 +28,7 @@ public class ArtifactController {
             ) {
         model.addAttribute("artifacts", artifactService.getAllArtifacts(search, pageable));
         model.addAttribute("search", search);
-        return "museum";
+        return "meseum";
     }
 
     @GetMapping("/create")
