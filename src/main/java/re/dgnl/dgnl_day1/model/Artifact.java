@@ -38,6 +38,6 @@ public class Artifact {
     @NotNull(message = "ngày không được để trống")
     @PastOrPresent(message = "Không được là ngayfntrong tương lai")
     @Column(name = "date")
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate date;
 }
