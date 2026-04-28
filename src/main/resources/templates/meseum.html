@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Title</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body class="container mt-4">
+
+<h2 class="text-center mb-4">QUẢN LÝ HIỆN VẬT</h2>
+
+<div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+
+<div class="row mb-3">
+    <div class="col-6">
+        <a th:href="@{/create}" class="btn btn-success">Thêm mới</a>
+    </div>
+    <div class="col-6">
+        <form th:action="@{/}" method="get" class="form-inline float-right">
+            <input type="text" name="search" th:value="${search}" class="form-control mr-sm-2" placeholder="Tìm tên/nguồn gốc">
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-light">
+    <tr>
+        <th>ID</th>
+        <th>Tên hiện vật</th>
+        <th>Nguồn gốc</th>
+        <th>Ngày nhận</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="a : ${artifacts.content}">
+        <td th:text="${a.id}"></td>
+        <td th:text="${a.name}"></td>
+        <td th:text="${a.origin}"></td>
+        <td th:text="${#temporals.format(a.date, 'dd-MM-yyyy')}"></td>
+        <td>
+            <a th:href="@{/edit/{id}(id=${a.id})}" class="btn btn-warning btn-sm">Sửa</a>
+            <a th:href="@{/delete/{id}(id=${a.id})}" class="btn btn-danger btn-sm"
+               onclick="return confirm('Xác nhận xóa?')">Xóa</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<nav th:if="${artifacts.totalPages > 1}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${artifacts.first} ? 'disabled'">
+            <a class="page-link" th:href="@{/(page=${artifacts.number - 1}, search=${search})}">Trước</a>
+        </li>
+
+        <li class="page-item" th:each="i : ${#numbers.sequence(0, artifacts.totalPages - 1)}"
+            th:classappend="${i == artifacts.number} ? 'active'">
+            <a class="page-link" th:href="@{/(page=${i}, search=${search})}" th:text="${i + 1}"></a>
+        </li>
+
+        <li class="page-item" th:classappend="${artifacts.last} ? 'disabled'">
+            <a class="page-link" th:href="@{/(page=${artifacts.number + 1}, search=${search})}">Sau</a>
+        </li>
+    </ul>
+</nav>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>
